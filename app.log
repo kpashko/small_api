@@ -1,0 +1,7 @@
+2020-09-15 09:36:07,180 - INFO - added userid: 2 with title: veritatis pariatur delectus to the database
+2020-09-15 09:36:20,629 - INFO - added userid: 5 with title: sequi ut omnis et to the database
+2020-09-15 09:36:52,064 - ERROR - An error occured while trying to get data from 'storiesd': (1146, "Table 'sql7365434.storiesd' doesn't exist")
+2020-09-15 09:41:42,379 - ERROR - An error occured while trying to get data from 'storiesd': (1146, "Table 'sql7365434.storiesd' doesn't exist")
+2020-09-15 09:43:17,643 - ERROR - Failed adding item to the database: (1062, "Duplicate entry '89' for key 'id'")
+2020-09-15 09:43:18,349 - INFO - added userid: 5 with title: incidunt ut saepe autem to the database
+2020-09-15 09:43:20,805 - INFO - added userid: 4 with title: sequi dolorem sed to the database
