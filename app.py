@@ -148,7 +148,3 @@ def tbls():
     except mysql.connection.Error as err:
         logger.error(f"Could not fetch all tables. Error: '{err}'")
         return f"Could not fetch all tables. Error: '{err}'"
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
