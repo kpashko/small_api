@@ -1,4 +1,4 @@
-# This is as implied in the title a small api assignment. 
+# This is, as implied in the title, a small api assignment. 
 
 demo at: [https://jellyapi.herokuapp.com/](https://jellyapi.herokuapp.com/)
 
