@@ -5,3 +5,8 @@
 2020-09-15 09:43:17,643 - ERROR - Failed adding item to the database: (1062, "Duplicate entry '89' for key 'id'")
 2020-09-15 09:43:18,349 - INFO - added userid: 5 with title: incidunt ut saepe autem to the database
 2020-09-15 09:43:20,805 - INFO - added userid: 4 with title: sequi dolorem sed to the database
+2020-09-16 11:14:41,564 - INFO - Table stories created!
+2020-09-16 11:14:42,885 - ERROR - Failed creating database stories. Error: '(1050, "Table 'stories' already exists")'
+2020-09-16 11:14:46,316 - INFO - Table asdasd created!
+2020-09-16 11:14:48,606 - ERROR - Failed creating database asdasd. Error: '(1050, "Table 'asdasd' already exists")'
+2020-09-16 11:14:49,433 - ERROR - Failed creating database stories. Error: '(1050, "Table 'stories' already exists")'

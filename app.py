@@ -4,12 +4,13 @@ import requests
 import yaml
 import logging.config
 from random import randint
+import os
 app = Flask(__name__)
 
-app.config["MYSQL_USER"] = 'sql7365434'
-app.config["MYSQL_PASSWORD"] = 'UiwykVIDSi'
-app.config["MYSQL_HOST"] = 'sql7.freemysqlhosting.net'
-app.config["MYSQL_DB"] = 'sql7365434'
+app.config["MYSQL_USER"]  = os.environ.get("MYSQL_USER")
+app.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
+app.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST")
+app.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
 app.config["MYSQL_CURSORCLASS"] = 'DictCursor'
 
 mysql = MySQL(app)
@@ -36,6 +37,13 @@ def add_data(database, data):
     except mysql.connection.Error as err:
         logger.error(f"Failed adding item to the database: {err}")
         return "Failed adding to the database: {}".format(err)
+
+
+@app.route('/')
+def index():
+    cur = mysql.connection.cursor()
+    cur.close()
+    return 'hi'
 
 
 @app.route('/fetch')
