@@ -47,7 +47,7 @@ def index():
 
 
 @app.route('/fetch')
-def hello_world():
+def fetch():
     """Fetching data from request and storing it in the database"""
     db_name = "stories"
     r = requests.get(get_link())
