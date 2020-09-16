@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from flask_mysqldb import MySQL
 import requests
 import yaml
@@ -43,7 +43,7 @@ def add_data(database, data):
 def index():
     cur = mysql.connection.cursor()
     cur.close()
-    return 'hi'
+    return render_template("index.html")
 
 
 @app.route('/fetch')
@@ -67,8 +67,9 @@ def by_story(id):
         results = cur.fetchall()
         return str(results)
     except mysql.connection.Error as err:
-        logger.error(f"While fetching the story by id, '{id}' an error occurred: {err}")
-        return f"While fetching the story by id, '{id}' an error occurred: {err}"
+        results = f"While fetching the story by id, '{id}' an error occurred: {err}"
+        logger.error(results)
+        return render_template("results.html", results=results)
 
 
 @app.route('/user/<userId>')
@@ -80,8 +81,9 @@ def by_userid(userId):
         results = cur.fetchall()
         return str(results)
     except mysql.connection.Error as err:
-        logger.error(f"While fetching the stories of the user '{userId}', an error occurred: {err}")
-        return f"While fetching the stories of the user '{userId}', an error occurred: {err}"
+        results = f"While fetching the stories of the user '{userId}', an error occurred: {err}"
+        logger.error(results)
+        return render_template("results.html", results=results)
 
 
 @app.route('/title/<word>')
@@ -93,8 +95,9 @@ def title_search(word):
         results = cur.fetchall()
         return str(results)
     except mysql.connection.Error as err:
-        logger.error(f"While fetching the stories by word '{word}', an error occurred: {err}")
-        return f"While fetching the stories by word '{word}', an error occurred: {err}"
+        results = f"While fetching the stories by word '{word}', an error occurred: {err}"
+        logger.error(results)
+        return render_template("results.html", results=results)
 
 
 @app.route('/db/<name>')
@@ -106,8 +109,9 @@ def stor(name):
         results = cur.fetchall()
         return str(results)
     except mysql.connection.Error as err:
-        logger.error(f"An error occurred while trying to get data from '{name}': {err}")
-        return redirect(url_for('.tbls'))
+        results = f"An error occurred while trying to get data from '{name}': {err}"
+        logger.error(results)
+        return render_template("results.html", results=results)
 
 
 @app.route('/create_table/<name>')
@@ -117,11 +121,13 @@ def crt(name):
     try:
         cur.execute('''CREATE TABLE ''' + name + ''' (id INTEGER UNIQUE, userId INTEGER, title VARCHAR(255))''')
         mysql.connection.commit()
-        logger.info(f"Table {name} created!")
-        return f"Table {name} created!"
+        results = f"Table {name} created!"
+        logger.info(results)
+        return render_template("results.html", results=results)
     except mysql.connection.Error as err:
-        logger.error(f"Failed creating database {name}. Error: '{err}'")
-        return "Failed creating database: {}".format(err)
+        results = f"Failed creating database {name}. Error: '{err}'"
+        logger.error(results)
+        return render_template("results.html", results=results)
 
 
 @app.route('/drop_table/<name>')
@@ -146,5 +152,39 @@ def tbls():
         cur.execute("SHOW Tables")
         return str(cur.fetchall())
     except mysql.connection.Error as err:
-        logger.error(f"Could not fetch all tables. Error: '{err}'")
-        return f"Could not fetch all tables. Error: '{err}'"
+        results = f"Could not fetch all tables. Error: '{err}'"
+        logger.error(results)
+        return render_template("results.html", results=results)
+
+
+@app.route('/logs')
+def logz():
+    """Showing the logs"""
+    def lastNlines(fname, N):
+        bufsize = 8192
+        fsize = os.stat(fname).st_size
+        iter = 0
+
+        with open('app.log') as f:
+            if bufsize > fsize:
+                # adjusting buffer size according to size of file
+                bufsize = fsize - 1
+                # list to store last N lines
+                fetched_lines = []
+                # while loop to fetch last N lines
+                while True:
+                    iter += 1
+                    # moving cursor to the last Nth line of file
+                    f.seek(fsize - bufsize * iter)
+                    # storing each line in list upto end of file
+                    fetched_lines.extend(f.readlines())
+
+                    # halting the program when size of list is equal or greater to the number of lines requested or
+                    # when we reach end of file
+                    if len(fetched_lines) >= N or f.tell() == 0:
+                        return ''.join(fetched_lines[-N:])
+
+    try:
+        render_template("logs.html", logs=lastNlines('app.log', 20))
+    except Exception as e:
+        return render_template("results.html", results=f"No logs. An error occured: {e}")
