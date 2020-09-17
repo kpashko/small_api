@@ -159,15 +159,26 @@ def tbls():
 
 @app.route('/dispatch')
 def dispatch():
-    destination = request.form.get('name')
-    value = request.form.get('value')
+    #destination = request.form.get('name')
+    userid = request.args.get('str_by_usr')
+    id = request.args.get('str_by_id')
+    word = request.args.get('str_by_wrd')
+    #value = request.form.get('value')
 
-    if destination == "str_by_id":
-        return redirect(url_for('by_story'), value)
-    elif destination == "str_by_usr":
-        return redirect(url_for('by_userid'), value)
-    elif destination == "str_by_wrd":
-        return redirect(url_for('title_search'), value)
+    if id:
+        return redirect(url_for('by_story'), id)
+    elif userid:
+        return redirect(url_for('by_userid'), userid)
+    elif word:
+        return redirect(url_for('title_search'), word)
+
+    #
+    # if destination == "str_by_id":
+    #     return redirect(url_for('by_story'), value)
+    # elif destination == "str_by_usr":
+    #     return redirect(url_for('by_userid'), value)
+    # elif destination == "str_by_wrd":
+    #     return redirect(url_for('title_search'), value)
 
 
 @app.route('/logs')
