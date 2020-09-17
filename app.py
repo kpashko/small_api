@@ -168,7 +168,7 @@ def dispatch():
     if id:
         return redirect(url_for('by_story', id=id))
     elif userid:
-        return redirect(url_for('by_userid', userid=userid))
+        return redirect(url_for('by_userid', userId=userid))
     elif word:
         return redirect(url_for('title_search', word=word))
 
