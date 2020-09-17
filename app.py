@@ -166,11 +166,11 @@ def dispatch():
     #value = request.form.get('value')
 
     if id:
-        return redirect(url_for('by_story'), id)
+        return redirect(url_for('by_story', id=id))
     elif userid:
-        return redirect(url_for('by_userid'), userid)
+        return redirect(url_for('by_userid', userid=userid))
     elif word:
-        return redirect(url_for('title_search'), word)
+        return redirect(url_for('title_search', word=word))
 
     #
     # if destination == "str_by_id":
