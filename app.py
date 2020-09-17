@@ -65,7 +65,7 @@ def by_story(id):
     try:
         cur.execute('''SELECT * FROM stories WHERE id = %s''', (id,))
         results = cur.fetchall()
-        return str(results)
+        return render_template("results.html", results=results)
     except mysql.connection.Error as err:
         results = f"While fetching the story by id, '{id}' an error occurred: {err}"
         logger.error(results)
@@ -79,7 +79,7 @@ def by_userid(userId):
     try:
         cur.execute('''SELECT title FROM stories WHERE userId = %s''', (userId,))
         results = cur.fetchall()
-        return str(results)
+        return render_template("results.html", results=results)
     except mysql.connection.Error as err:
         results = f"While fetching the stories of the user '{userId}', an error occurred: {err}"
         logger.error(results)
@@ -93,7 +93,7 @@ def title_search(word):
     try:
         cur.execute('''SELECT title FROM stories WHERE title LIKE %s ''', ('%' + word + '%',))
         results = cur.fetchall()
-        return str(results)
+        return render_template("results.html", results=results)
     except mysql.connection.Error as err:
         results = f"While fetching the stories by word '{word}', an error occurred: {err}"
         logger.error(results)
@@ -107,7 +107,7 @@ def stor(name):
     try:
         cur.execute('''SELECT * FROM ''' + name)
         results = cur.fetchall()
-        return str(results)
+        return render_template("results.html", results=results)
     except mysql.connection.Error as err:
         results = f"An error occurred while trying to get data from '{name}': {err}"
         logger.error(results)
@@ -150,7 +150,7 @@ def tbls():
     cur = mysql.connection.cursor()
     try:
         cur.execute("SHOW Tables")
-        return str(cur.fetchall())
+        return render_template("results.html", results=cur.fetchall())
     except mysql.connection.Error as err:
         results = f"Could not fetch all tables. Error: '{err}'"
         logger.error(results)
