@@ -4,30 +4,26 @@
     <meta charset="UTF-8">
     <title>API task</title>
     <h2>Hello, here you can check useful links:</h2>
-
+    <form>
+        <div>
+            <input type="submit" formaction="{{ url_for('fetch') }}" value="Call to API" style="font-size:64pt; width:300px"/>
+        </div>
     <div>
-        <form action="{{ url_for('fetch') }}">
-            <input type="submit" value="Call to API" style="font-size:64pt; width:300px"/>
-        </form>
+        <label>Get story by id:
+        <input name="str_by_id" type="text" size="10"></label>
+        <input formaction="{{ url_for('dispatch') }}" type="submit">
     </div>
     <div>
-        <form>
-            <p>Get story by id:</p>
-            <input type="text" size="10"><input type="submit" value="get story">
-        </form>
+        <label>Get all stories of a user:
+        <input name="str_by_usr" type="text" size="10"></label>
+        <input formaction="{{ url_for('dispatch') }}" type="submit" value="get stories">
     </div>
+    </form>
 
     <div>
-        <form>
-            <p>Get all stories of a user:</p>
-            <input type="text" size="10"><input type="submit" value="get stories">
-        </form>
-    </div>
-
-    <div>
-        <form>
-            <p>Get stories that contain a word:</p>
-            <input type="text" size="40"><input type="submit" value="get stories">
+        <label>Get stories that contain a word:
+        <input name="str_by_wrd" type="text" size="40"></label>
+        <input formaction="{{ url_for('dispatch') }}" type="submit" value="get titles">
         </form>
     </div>
 </head>

@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, request, url_for, render_template, redirect
 from flask_mysqldb import MySQL
 import requests
 import yaml
@@ -53,9 +53,9 @@ def fetch():
     r = requests.get(get_link())
     data = r.json()
     if data["completed"]:
-        return add_data(db_name, data)
+        return render_template("results.html", results=add_data(db_name, data))
     else:
-        return "Nothing was added to the db  " + str(data)
+        return render_template("results.html", results="Nothing was added to the db  " + str(data))
 
 
 @app.route('/story/<id>')
@@ -155,6 +155,19 @@ def tbls():
         results = f"Could not fetch all tables. Error: '{err}'"
         logger.error(results)
         return render_template("results.html", results=results)
+
+
+@app.route('/dispatch')
+def dispatch():
+    destination = request.form.get('name')
+    value = request.form.get('value')
+
+    if destination == "str_by_id":
+        return redirect(url_for('by_story'), value)
+    elif destination == "str_by_usr":
+        return redirect(url_for('by_userid'), value)
+    elif destination == "str_by_wrd":
+        return redirect(url_for('title_search'), value)
 
 
 @app.route('/logs')
